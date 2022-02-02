@@ -1,13 +1,17 @@
 from decimal import *
 import pymongo
 from datetime import datetime, date
-
+import configparser
 from bson import ObjectId
 
-def connect():
+def config():
+    config = configparser.ConfigParser()
+    config.read('.ini')
+    return config
+
+def connect(uri):
     # Replace the uri string with your MongoDB deployment's connection string.
-    conn_str = "mongodb://localhost:27017"
-    connection = pymongo.MongoClient(conn_str)
+    connection = pymongo.MongoClient(uri)
     return connection
 
 def get_database(connection, database_name):
@@ -93,7 +97,9 @@ def updateTransaction(collection_name):
     )
 
 def main():
-    connection = connect()
+    conf = config()
+    uri = conf['PROD']['DB_URI']    
+    connection = connect(uri)
     db = get_database(connection, 'transactions') 
     collection = get_collection(db, 'clients')
 
