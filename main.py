@@ -25,7 +25,6 @@ def insert_item(collection_name, item):
     collection_name.insert_one(item)
     print("Successfully added")
     print(item)
-    return
 
 def get_last_x_items(collection_name, number_of_transactions):
     items = collection_name.find().sort("_id", -1).limit(number_of_transactions)
@@ -63,17 +62,10 @@ def addTransaction(collection_name):
     else:
         print("No existing transaction found. Adding now...")
         insert_item(collection_name, item)
-    return 
 
 def getTransaction(collection_name):
-    latestTransaction = str(input("Do you want to retrieve the latest transactions? (y/n): ")).lower()
-    
-    if latestTransaction == "y":
-        transaction_number = int(input("How many transactions do you want to retrieve? "))
-        get_last_x_items(collection_name, transaction_number)
-    else: 
-        #totalFields = int(input("How many fields do you want to search with? "))
-        return
+    transaction_number = int(input("How many transactions do you want to retrieve? "))
+    get_last_x_items(collection_name, transaction_number)
 
 def deleteTransaction(collection_name):
     id = str(input("Enter the id of the transaction you want to delete: "))
@@ -107,13 +99,6 @@ def main():
         command = str(input("What do you want to do (G, A, U, D): ")).lower()
         if command == "g":
             getTransaction(collection)
-            """
-            input how many fields do you want to match, -1 if want to return last x numbers,
-            input [which field
-            input [with what value] 
-            repeat for amount of fields
-            return list of transactions
-            """
         elif command == "a":
             addTransaction(collection)
         elif command == "u":
