@@ -9,9 +9,9 @@ def config():
     config.read('.ini')
     return config
 
-def connect(uri):
-    # Replace the uri string with your MongoDB deployment's connection string.
-    connection = pymongo.MongoClient(uri)
+def connect(conf):
+    uri = conf['PROD']['db_uri']
+    connection = pymongo.MongoClient(uri)   
     return connection
 
 def get_database(connection, database_name):
@@ -25,11 +25,6 @@ def insert_item(collection_name, item):
     collection_name.insert_one(item)
     print("Successfully added")
     print(item)
-
-def get_last_x_items(collection_name, number_of_transactions):
-    items = collection_name.find().sort("_id", -1).limit(number_of_transactions)
-    for item in items:
-        print(item)
 
 def get_item(collection_name, item):
     item = collection_name.find_one(item)
@@ -65,7 +60,9 @@ def addTransaction(collection_name):
 
 def getTransaction(collection_name):
     transaction_number = int(input("How many transactions do you want to retrieve? "))
-    get_last_x_items(collection_name, transaction_number)
+    items = collection_name.find().sort("_id", -1).limit(transaction_number)
+    for item in items:
+        print(item)
 
 def deleteTransaction(collection_name):
     id = str(input("Enter the id of the transaction you want to delete: "))
@@ -90,10 +87,9 @@ def updateTransaction(collection_name):
 
 def main():
     conf = config()
-    uri = conf['PROD']['DB_URI']    
-    connection = connect(uri)
-    db = get_database(connection, 'transactions') 
-    collection = get_collection(db, 'clients')
+    connection = connect(conf)
+    db = get_database(connection, conf['PROD']['db_name']) 
+    collection = get_collection(db, conf['PROD']['db_collection'])
 
     while True:
         command = str(input("What do you want to do (G, A, U, D): ")).lower()
