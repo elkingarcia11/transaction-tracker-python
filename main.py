@@ -59,10 +59,17 @@ def addTransaction(collection_name):
         insert_item(collection_name, item)
 
 def getTransaction(collection_name):
-    transaction_number = int(input("How many transactions do you want to retrieve? "))
-    items = collection_name.find().sort("_id", -1).limit(transaction_number)
-    for item in items:
-        print(item)
+    searchByName = str(input("Do you want to search by name? (Format: y/n) ")).lower()
+    if searchByName == "y":
+        name = str(input("Enter the full name as it appears on the transaction: ")).lower()
+        items = collection_name.find({"name": name}).sort("_id", -1)
+        for item in items:
+            print(item)
+    else:
+        transaction_number = int(input("Enter the number of transactions you want to retrieve: "))
+        items = collection_name.find().sort("_id", -1).limit(transaction_number)
+        for item in items:
+            print(item)
 
 def deleteTransaction(collection_name):
     id = str(input("Enter the id of the transaction you want to delete: "))
@@ -92,7 +99,7 @@ def main():
     collection = get_collection(db, conf['PROD']['db_collection'])
 
     while True:
-        command = str(input("What do you want to do (G, A, U, D): ")).lower()
+        command = str(input("Enter what you want to do (G, A, U, D): ")).lower()
         if command == "g":
             getTransaction(collection)
         elif command == "a":
