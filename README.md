@@ -14,9 +14,7 @@ Create a configuration `.ini` file with sensitive information such as database c
 
 Intended for developer use only (built to lay the groundwork for the Transaction Tracker API)
 
-1. Run the following command in the command line to start using the Transaction Tracker:
-
-```python3 main.py```
+1. Run `python3 main.py` in the command line to start using the Transaction Tracker:
 
 2. Use key inputs to access different features in program:  
  `G`: for retrieving transactions  
