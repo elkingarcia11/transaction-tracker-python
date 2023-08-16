@@ -15,7 +15,6 @@ def connect(conf):
     return connection
 
 def get_database(connection, database_name):
-    # Create the database for our example (we will use the same database throughout the tutorial
     return connection[database_name]
 
 def get_collection(database_name, collection_name):
@@ -78,7 +77,7 @@ def deleteTransaction(collection_name):
 
 def updateTransaction(collection_name):
     id = str(input("Enter the id of the transaction you want to update: "))
-    name = str(input("Enter name: ")).lower()
+    name = str(input("Enter name: "))
     invoice = int(input("Enter invoice number: "))
     receipt = int(input("Enter receipt number: "))
     amount = float(input("Enter amount paid (Format: DD.CC): "))
@@ -88,7 +87,7 @@ def updateTransaction(collection_name):
     collection_name.find_one_and_update(
         {"_id":ObjectId(id)},
         {"$set":
-            {"name" : name, "invoice" : invoice, "receipt" : receipt, "amount" : amount, "dateProcessed" : date(year, month, day).isoformat(), "date" : datetime.today()}
+            {"name" : name.upper(), "invoice" : invoice, "receipt" : receipt, "amount" : amount, "dateProcessed" : date(year, month, day).isoformat(), "date" : datetime.today()}
         }
     )
 
