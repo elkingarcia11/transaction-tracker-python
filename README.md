@@ -18,6 +18,17 @@ Run the following command in the command line to start using the Transaction Tra
 
 ```python3 main.py```
 
+Use key inputs to access different features in program:
+ `G` for retrieving transactions
+ `A` for adding transactions
+ `U` for updating transactions
+ `D` for deleting transactions
+
+Then, follow the rest of the program instructions to execute commands
+
+### Example
+![Alt Text](./image.png)
+
 ## Features
 
 - Easily manage transactions from command line: Add, update, delete, and retrieve transactions in a MongoDB database.
