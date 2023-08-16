@@ -12,19 +12,19 @@ Create a configuration `.ini` file with sensitive information such as database c
 
 ## Usage
 
-Intended for developer use only (built to lay the groundwork for the Transaction Tracker API)!
+Intended for developer use only (built to lay the groundwork for the Transaction Tracker API)
 
-Run the following command in the command line to start using the Transaction Tracker:
+1. Run the following command in the command line to start using the Transaction Tracker:
 
 ```python3 main.py```
 
-Use key inputs to access different features in program:
- `G` for retrieving transactions
- `A` for adding transactions
- `U` for updating transactions
- `D` for deleting transactions
+2. Use key inputs to access different features in program:  
+ `G`: for retrieving transactions  
+ `A`: for adding transactions  
+ `U`: for updating transactions  
+ `D`: for deleting transactions  
 
-Then, follow the rest of the program instructions to execute commands
+3. Follow the rest of the program instructions to execute commands
 
 ### Example
 ![Alt Text](./image.png)
