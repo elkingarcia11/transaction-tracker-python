@@ -1,4 +1,4 @@
-# Transaction Tracker (Python + MongoDB)
+# Transaction Tracker
 
 Transaction Tracker is a Python project that allows users to manage transactions in a MongoDB database. 
 
