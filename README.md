@@ -2,19 +2,41 @@
 
 Transaction Tracker is a Python project that allows users to manage transactions in a MongoDB database. 
 
-## Installation
+## Table of Contents
 
-1. Install the `pymongo` Python library: 
+1. [Installation](#installation)
+2. [Configuration](#configuration)
+3. [Prerequisites](#prerequisites)
+4. [Usage](#usage)
+5. [Features](#features)
+6. [Screenshot](#screenshots)
+7. [Contact Information](#contact-information)
+8. [Acknowledgments](#acknowledgments)
+8. [Roadmap](#roadmap)
+
+## Installation
+To set up and install the project, follow these steps:
+
+- Install the `pymongo` Python library: 
 `pip install pymongo`
 
-2. Configure the `.ini` file:
-Create a configuration `.ini` file with sensitive information such as local database connection details.
+## Configuration
 
-3. Configure the `keys/credentials.json` file with sensitive information such as cloud database connection details.
+- Create & configure the `.ini` file with sensitive information such as local database connection details.
+
+- Create & configure the `keys/credentials.json` file with sensitive information such as cloud database connection details.
+
+## Prerequisites
+
+Before running the project, ensure you have the following prerequisites:
+
+- [ ] `pymongo` installed
+- [ ] `.ini` file created & configured
+- [ ]  `keys/credentials.json` file created & configured
 
 ## Usage
 
-Intended for developer use only (built to lay the groundwork for the Transaction Tracker API)
+### Development
 
 1. Run `python3 main.py` in the command line to start using the Transaction Tracker:
 
@@ -26,14 +48,15 @@ Intended for developer use only (built to lay the groundwork for the Transaction
 
 3. Follow the rest of the program instructions to execute commands
 
-### Example
-![Alt Text](./image.png)
-
 ## Features
 
 - Easily manage transactions from command line: Add, update, delete, and retrieve transactions in a MongoDB database.
 - Prevent duplicate postings: Communicate with the MongoDB database to avoid duplicate transactions.
 - Efficient tracking: Track and manage posted transactions for better financial management.
+
+### Screenshot
+
+![Alt Text](./image.png)
 
 ## Contact Information
 
@@ -41,7 +64,7 @@ For questions, feedback, or inquiries, please contact the project owner at [elki
 
 ## Acknowledgments
 
-- This project utilizes [PyMongo](https://pymongo.readthedocs.io/), a Python distribution containing tools for working with MongoDB.
+This project utilizes [PyMongo](https://pymongo.readthedocs.io/), a Python distribution containing tools for working with MongoDB.
 
 ## Roadmap
 
