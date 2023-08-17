@@ -8,7 +8,9 @@ Transaction Tracker is a Python project that allows users to manage transactions
 `pip install pymongo`
 
 2. Configure the `.ini` file:
-Create a configuration `.ini` file with sensitive information such as database connection details.
+Create a configuration `.ini` file with sensitive information such as local database connection details.
+
+3. Configure the `keys/credentials.json` file with sensitive information such as cloud database connection details.
 
 ## Usage
 
