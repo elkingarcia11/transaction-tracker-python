@@ -19,6 +19,8 @@ To set up and install the project, follow these steps:
 
 - Install the `pymongo` Python library: 
 `pip install pymongo`
+- Install the `bson` Python library:
+`pip install bson`
 
 ## Configuration
 
@@ -31,6 +33,7 @@ To set up and install the project, follow these steps:
 Before running the project, ensure you have the following prerequisites:
 
 - [ ] `pymongo` installed
+- [ ] `bson` installed
 - [ ] `.ini` file created & configured
 - [ ]  `keys/credentials.json` file created & configured
 

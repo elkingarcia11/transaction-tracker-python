@@ -1,111 +1,82 @@
-from decimal import *
-import pymongo
-from datetime import datetime, date
-import configparser
-from bson import ObjectId
 
-def config():
+import configparser
+import mongo_utils
+import utils
+
+def read_config(file_name):
+    """
+    Reads configuration settings from an .ini file and returns a ConfigParser object.
+
+    Args:
+        file_name (str): The name of the .ini file to read.
+
+    Returns:
+        configparser.ConfigParser: A ConfigParser object containing the parsed configuration settings.
+
+    Description:
+        This function reads configuration settings from a specified .ini file using the
+        configparser module. It creates a ConfigParser object, reads the settings from the
+        file, and returns the ConfigParser object for further use.
+
+    Example:
+        config = read_config('config.ini')
+        value = config.get('section', 'key')
+    """
+
     config = configparser.ConfigParser()
-    config.read('.ini')
+    config.read(file_name)
     return config
 
-def connect(conf):
-    uri = conf['PROD']['db_uri']
-    connection = pymongo.MongoClient(uri)   
-    return connection
-
-def get_database(connection, database_name):
-    return connection[database_name]
-
-def get_collection(database_name, collection_name):
-    return database_name[collection_name]
-
-def insert_item(collection_name, item):
-    collection_name.insert_one(item)
-    print("Successfully added")
-    print(item)
-
-def get_item(collection_name, item):
-    item = collection_name.find_one(item)
-    if item is None:
-        return False
-    else:
-        return True
-
-def addTransaction(collection_name):
-    name = str(input("Enter name: ")).lower()
-    invoice = int(input("Enter invoice number: "))
-    receipt = int(input("Enter receipt number: "))
-    amount = float(input("Enter amount paid (Format: DD.CC): "))
-    month = int(input("Enter the month the zelle processed: "))
-    day = int(input("Enter the day the zelle processed: "))
-    year = int(input("Enter the year the zelle processed: "))
-
-    searchItem = {"name" : name, "amount" : amount, "dateProcessed" : date(year, month, day).isoformat()}
-    item = {"name" : name, "invoice" : invoice, "receipt" : receipt, "amount" : amount, "dateProcessed" : date(year, month, day).isoformat(), "date" : datetime.today()}
-
-    existsInDb = get_item(collection_name, searchItem)
-
-    if existsInDb:
-        addToDb = str(input("Transaction already exists. Do you still want to add to database? (y/n): ")).lower()
-        if addToDb == "y":
-            print("This transaction must be unique. Adding now...")
-            insert_item(collection_name, item)
-        else: 
-            print("Not adding to database");
-    else:
-        print("No existing transaction found. Adding now...")
-        insert_item(collection_name, item)
-
-def getTransaction(collection_name):
-    searchByName = str(input("Do you want to search by name? (Format: y/n) ")).lower()
-    if searchByName == "y":
-        name = str(input("Enter the full name as it appears on the transaction: ")).lower()
-        items = collection_name.find({"name": name}).sort("_id", -1)
-        for item in items:
-            print(item)
-    else:
-        transaction_number = int(input("Enter the number of transactions you want to retrieve: "))
-        items = collection_name.find().sort("_id", -1).limit(transaction_number)
-        for item in items:
-            print(item)
-
-def deleteTransaction(collection_name):
-    id = str(input("Enter the id of the transaction you want to delete: "))
-    collection_name.delete_one({"_id":ObjectId(id)});
-    print("Transaction Removed!")
-
-def updateTransaction(collection_name):
-    id = str(input("Enter the id of the transaction you want to update: "))
-    name = str(input("Enter name: "))
-    invoice = int(input("Enter invoice number: "))
-    receipt = int(input("Enter receipt number: "))
-    amount = float(input("Enter amount paid (Format: DD.CC): "))
-    month = int(input("Enter the month the zelle processed: "))
-    day = int(input("Enter the day the zelle processed: "))
-    year = int(input("Enter the year the zelle processed: "))
-    collection_name.find_one_and_update(
-        {"_id":ObjectId(id)},
-        {"$set":
-            {"name" : name.upper(), "invoice" : invoice, "receipt" : receipt, "amount" : amount, "dateProcessed" : date(year, month, day).isoformat(), "date" : datetime.today()}
-        }
-    )
-
 def main():
-    conf = config()
-    connection = connect(conf)
-    db = get_database(connection, conf['PROD']['db_name']) 
-    collection = get_collection(db, conf['PROD']['db_collection'])
+    """    
+        This function serves as the entry point for the script. It initializes the database
+        connection and offers an interactive interface for the user to interact with the database.
+    
+    Args:
+        None
+
+    Returns:
+        None
+
+    Example:
+        Run the script, and the user will be prompted to enter a command ("G", "A", "U", "D").
+        Depending on the command, the script will interact with the MongoDB collection
+        based on user actions.
+
+    Description:
+        
+        This function reads configuration settings from an .ini file, establishes a
+        connection to a MongoDB database, and then enters a loop where the user can
+        perform various actions on the database such as retrieving, adding, updating,
+        and deleting transactions.
+
+        The user can input the following commands (Case insensitive):
+        - "G": Get a transaction
+        - "A": Add a new transaction
+        - "U": Update an existing transaction
+        - "D": Delete a transaction
+
+        The script will continue to loop until manually terminated.
+
+    Note:
+        Ensure you have a valid '.ini' file containing configuration settings.
+    """
+
+    conf = read_config('.ini')
+    connection = mongo_utils.connect(conf)
+    db = mongo_utils.get_database(connection, conf['PROD']['db_name']) 
+    collection = mongo_utils.get_collection(db, conf['PROD']['db_collection'])
 
     while True:
         command = str(input("Enter what you want to do (G, A, U, D): ")).lower()
         if command == "g":
-            getTransaction(collection)
+
+            mongo_utils.get_item(collection)
         elif command == "a":
-            addTransaction(collection)
+            mongo_utils.add_item(collection)
         elif command == "u":
-            updateTransaction(collection)
+            mongo_utils.update_item(collection)
         elif command == "d":
-            deleteTransaction(collection) 
+            mongo_utils.delete_item(collection) 
 
 main()
