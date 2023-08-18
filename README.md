@@ -56,7 +56,7 @@ Before running the project, ensure you have the following prerequisites:
 
 ### Screenshot
 
-![Alt Text](./image.png)
+![Program Snippet](./image.png)
 
 ## Contact Information
 
