@@ -17,10 +17,12 @@ Transaction Tracker is a Python project that allows users to manage transactions
 ## Installation
 To set up and install the project, follow these steps:
 
-- Install the `pymongo` Python library: 
+- Install the `pymongo` library: 
 `pip install pymongo`
-- Install the `bson` Python library:
+- Install the `bson` library:
 `pip install bson`
+- Install the `firebase-admin` library:
+`pip install --upgrade firebase-admin`
 
 ## Configuration
 

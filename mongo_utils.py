@@ -10,7 +10,7 @@ def connect(conf):
 
     Description:
         This function takes a configuration object containing the necessary settings,
-        including the URI of the MongoDB database. It uses the 'pymongo' library to
+        including the URI of the MongoDB database. It uses the "pymongo" library to
         establish a connection to the specified database.
 
     Args:
@@ -20,11 +20,11 @@ def connect(conf):
         pymongo.MongoClient: A MongoDB connection object.
 
     Example:
-        conf = utils.read_config('config.ini')
+        conf = utils.read_config("config.ini")
         connection = connect(conf)
     """
 
-    uri = conf['PROD']['db_uri']
+    uri = conf["PROD"]["mongo_db_uri"]
     connection = pymongo.MongoClient(uri)
     return connection
 
@@ -49,8 +49,8 @@ def get_collection(connection, conf):
         collection = get_collection(connection, conf)
     """
 
-    database = connection[conf['PROD']['db_name']]
-    collection = database[conf['PROD']['db_collection']]
+    database = connection[conf["PROD"]["mongo_db_name"]]
+    collection = database[conf["PROD"]["mongo_db_collection"]]
     return collection
 
 
@@ -191,7 +191,7 @@ def insert_item(item):
         return None
 
 
-def update_item(id, name, invoice, receipt, amount, month, day, year):
+def update_item(id, item):
     """
     Updates an item in a MongoDB collection based on its unique ObjectId.
 
@@ -220,8 +220,8 @@ def update_item(id, name, invoice, receipt, amount, month, day, year):
         collection.find_one_and_update(
             {"_id": ObjectId(id)},
             {"$set":
-                {"name": name.upper(), "invoice": invoice, "receipt": receipt, "amount": amount,
-                 "dateProcessed": date(year, month, day).isoformat()}
+                {"name": item["name"].upper(), "invoice": item["invoice"], "receipt": item["receipt"], "amount": item["amount"],
+                 "dateProcessed": item["dateProcessed"]}
              }
         )
     else:
@@ -229,6 +229,6 @@ def update_item(id, name, invoice, receipt, amount, month, day, year):
         return None
 
 
-conf = utils.read_config('.ini')
+conf = utils.read_config(".ini")
 connection = connect(conf)
 collection = get_collection(connection, conf)
