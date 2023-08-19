@@ -16,7 +16,7 @@ def get_items_by_name(name):
         return docs
 
 def get_last_x_items(number):
-    docs = (collection.order_by("dateProcessed", direction=firestore.Query.DESCENDING).limit(number).stream())
+    docs = (collection.order_by("date_added", direction=firestore.Query.DESCENDING).limit(number).stream())
     return docs
 
 def does_exist(item):
@@ -29,13 +29,14 @@ def does_exist(item):
     return False
     
 def insert_item(item):
+    item['date_added'] = firestore.SERVER_TIMESTAMP
     collection.document().set(item)
 
 def update_item(id, item):
+    item['date_added'] = firestore.SERVER_TIMESTAMP
     collection.document(id).set(item)
 
 def delete_item(id):
     collection.document(id).delete()
-
 
 collection = initialize_database("clients")

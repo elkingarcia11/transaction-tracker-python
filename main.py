@@ -1,5 +1,3 @@
-
-import mongo_utils
 import utils
 
 def main():
