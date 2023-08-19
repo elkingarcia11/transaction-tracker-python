@@ -51,13 +51,13 @@ def get_items_by_name(name):
 
 def get_last_x_items(number):
     """
-    Retrieves the last 'x' transaction items based on timestamp.
+    Retrieves the last "x" transaction items based on timestamp.
 
     Args:
         number (int): The number of transaction items to retrieve.
 
     Returns:
-        google.cloud.firestore.QuerySnapshot: A snapshot containing the last 'x' transaction items.
+        google.cloud.firestore.QuerySnapshot: A snapshot containing the last "x" transaction items.
 
     Description:
         This function queries the database collection to retrieve the specified number of most recent 
@@ -141,7 +141,7 @@ def insert_item(item):
         insert_item(new_item)
     """
 
-    item['date_added'] = firestore.SERVER_TIMESTAMP
+    item["date_added"] = firestore.SERVER_TIMESTAMP
     collection.document().set(item)
 
 def update_item(id, item):
@@ -165,7 +165,7 @@ def update_item(id, item):
         update_item(item_id, updated_item)
     """
 
-    item['date_added'] = firestore.SERVER_TIMESTAMP
+    item["date_added"] = firestore.SERVER_TIMESTAMP
     collection.document(id).set(item)
 
 def delete_item(id):

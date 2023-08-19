@@ -2,7 +2,7 @@
 __pycache__/
 test.py
 .DS_Store
-import_to_fb.py
 keys
-database.json
 firebase-debug.log
+.vscode
+assets/
