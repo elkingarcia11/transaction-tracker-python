@@ -3,20 +3,21 @@ import configparser
 import firestore_utils
 # import mongo_utils
 
+
 def get():
     """
     Retrieves transaction records based on user input.
-
-    Description:
-        This function interacts with the user to retrieve transaction records from the database.
-        Users can choose to search by name or retrieve a specific number of recent transactions.
-        Retrieved transaction records are displayed in the console.
 
     Args:
         None
 
     Returns:
         None
+
+    Description:
+        This function interacts with the user to retrieve transaction records from the database.
+        Users can choose to search by name or retrieve a specific number of recent transactions.
+        Retrieved transaction records are displayed in the console.
 
     Example:
         get()
@@ -43,17 +44,17 @@ def add():
     """
     Adds a new transaction record to the database based on user input.
 
-    Description:
-        This function interacts with the user to receive input for required fields.
-        If inputs are valid, the month, day and year fields are combined
-        into a dateProcessed field. Then the fuction checks if transaction is a duplicate, 
-        and then proceeds to add transaction based on user responses.
-
     Args:
         None
 
     Returns:
         None
+
+    Description:
+        This function interacts with the user to receive input for required fields.
+        If inputs are valid, the month, day and year fields are combined
+        into a dateProcessed field. Then the fuction checks if transaction is a duplicate, 
+        and then proceeds to add transaction based on user responses.
 
     Example:
         add()
@@ -96,17 +97,17 @@ def update():
     """
     Updates a transaction record in the database based on user input.
 
-    Description:
-        This function interacts with the user to update an existing transaction record in the database.
-        Users need to provide the ID of the transaction they want to update, and then they can input
-        new values for the transaction fields. If the inputs are valid and the transaction exists,
-        the updated data is then saved to the database.
-
     Args:
         None
 
     Returns:
         None
+
+    Description:
+        This function interacts with the user to update an existing transaction record in the database.
+        Users need to provide the ID of the transaction they want to update, and then they can input
+        new values for the transaction fields. If the inputs are valid and the transaction exists,
+        the updated data is then saved to the database.
 
     Example:
         update()
@@ -141,16 +142,16 @@ def delete():
     """
     Deletes a transaction record from the database based on user input.
 
-    Description:
-        This function interacts with the user to delete an existing transaction record from the database.
-        Users need to provide the ID of the transaction they want to delete. The specified transaction
-        record is then permanently removed from the database.
-
     Args:
         None
 
     Returns:
         None
+
+    Description:
+        This function interacts with the user to delete an existing transaction record from the database.
+        Users need to provide the ID of the transaction they want to delete. The specified transaction
+        record is then permanently removed from the database.
 
     Example:
         delete()

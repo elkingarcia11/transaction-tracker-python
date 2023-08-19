@@ -1,6 +1,6 @@
-# Transaction Tracker (Python & MongoDB)
+# Transaction Tracker (Python & NoSQL)
 
-Transaction Tracker is a Python project that allows users to manage transactions in a MongoDB database. 
+Transaction Tracker is a Python project that allows users to manage transactions in a MongoDB or Cloud Firestoredatabase. 
 
 ## Table of Contents
 
@@ -55,12 +55,10 @@ Before running the project, ensure you have the following prerequisites:
 
 ## Features
 
-- Easily manage transactions from command line: Add, update, delete, and retrieve transactions in a MongoDB database.
-- Prevent duplicate postings: Communicate with the MongoDB database to avoid duplicate transactions.
+- Easily manage transactions from command line: Add, update, delete, and retrieve transactions in a MongoDB or Cloud Firestore database.
+- Prevent duplicate postings: Communicate with the MongoDB or Cloud Firestore database to avoid duplicate transactions.
 - Efficient tracking: Track and manage posted transactions for better financial management.
 
-### Upcoming Features
-- Cloud Firestore functionality once we migrate the local database to the Google Cloud Platform
 ### Screenshot
 
 ![Program Snippet](./image.png)

@@ -8,16 +8,16 @@ def connect(conf):
     """
     Establishes a connection to a MongoDB database using configuration settings.
 
-    Description:
-        This function takes a configuration object containing the necessary settings,
-        including the URI of the MongoDB database. It uses the "pymongo" library to
-        establish a connection to the specified database.
-
     Args:
         conf (configparser.ConfigParser): The configuration object containing database settings.
 
     Returns:
         pymongo.MongoClient: A MongoDB connection object.
+
+    Description:
+        This function takes a configuration object containing the necessary settings,
+        including the URI of the MongoDB database. It uses the "pymongo" library to
+        establish a connection to the specified database.
 
     Example:
         conf = utils.read_config("config.ini")
@@ -33,16 +33,16 @@ def get_collection(connection, conf):
     """
     Retrieves a MongoDB collection based on a provided connection and configuration settings.
 
-    Description:
-        This function takes a MongoDB connection object and a configuration object containing
-        the necessary settings to retrieve a specific collection from a MongoDB database.
-
     Args:
         connection (pymongo.MongoClient): The MongoDB connection object.
         conf (configparser.ConfigParser): The configuration object containing database settings.
 
     Returns:
         pymongo.collection.Collection: The MongoDB collection object.
+
+    Description:
+        This function takes a MongoDB connection object and a configuration object containing
+        the necessary settings to retrieve a specific collection from a MongoDB database.
 
     Example:
         connection = connect(conf)
@@ -58,15 +58,15 @@ def delete_item(id):
     """
     Deletes an item from a MongoDB collection based on its unique ObjectId.
 
-    Description:
-        This function takes an ObjectId as input and uses it to delete the corresponding item
-        from a MongoDB collection.
-
     Args:
         id (str): The ObjectId of the item to be deleted.
 
     Returns:
         None
+
+    Description:
+        This function takes an ObjectId as input and uses it to delete the corresponding item
+        from a MongoDB collection.
 
     Example:
         delete_item("5f8a08f74cb5c576fa7c7f3a")
@@ -83,16 +83,16 @@ def does_exist(item):
     """
     Checks if an item exists in a MongoDB collection.
 
-    Description:
-        This function queries a MongoDB collection to check if the provided item exists
-        based on the given query. It returns True if the item is found, and False if it
-        is not found.
-
     Args:
         item (dict): The query to search for the item in the collection.
 
     Returns:
         bool: True if the item exists, False otherwise.
+
+    Description:
+        This function queries a MongoDB collection to check if the provided item exists
+        based on the given query. It returns True if the item is found, and False if it
+        is not found.
 
     Example:
         item_to_check = {"name": "example"}
@@ -118,15 +118,15 @@ def get_items_by_name(name):
     """
     Retrieves items from a MongoDB collection based on a specific name.
 
-    Description:
-        This function queries a MongoDB collection to retrieve items that match a specific name.
-        The items are sorted by their processed date in descending order.
-
     Args:
         name (str): The name to search for in the collection.
 
     Returns:
         pymongo.cursor.Cursor: A cursor containing the retrieved items.
+
+    Description:
+        This function queries a MongoDB collection to retrieve items that match a specific name.
+        The items are sorted by their processed date in descending order.
 
     Example:
         items = get_items_by_name("example")
@@ -144,15 +144,15 @@ def get_last_x_items(number):
     """
     Retrieves the last x items from a MongoDB collection.
 
-    Description:
-        This function queries a MongoDB collection to retrieve the last x items based on
-        their processed date in descending order.
-
     Args:
         number (int): The number of items to retrieve.
 
     Returns:
         pymongo.cursor.Cursor: A cursor containing the retrieved items.
+
+    Description:
+        This function queries a MongoDB collection to retrieve the last x items based on
+        their processed date in descending order.
 
     Example:
         last_items = get_last_x_items(10)
@@ -170,14 +170,14 @@ def insert_item(item):
     """
     Inserts an item into a MongoDB collection.
 
-    Description:
-        This function inserts a new item into a MongoDB collection.
-
     Args:
         item (dict): The item to insert.
 
     Returns:
         None
+
+    Description:
+        This function inserts a new item into a MongoDB collection.
 
     Example:
         new_item = {"name": "new_example"}
@@ -195,10 +195,6 @@ def update_item(id, item):
     """
     Updates an item in a MongoDB collection based on its unique ObjectId.
 
-    Description:
-        This function updates an existing item in a MongoDB collection based on its unique ObjectId.
-        The item is updated with the provided details.
-
     Args:
         id (str): The ObjectId of the item to be updated.
         name (str): The new name for the item.
@@ -211,6 +207,10 @@ def update_item(id, item):
 
     Returns:
         None
+
+    Description:
+        This function updates an existing item in a MongoDB collection based on its unique ObjectId.
+        The item is updated with the provided details.
 
     Example:
         update_item("5f8a08f74cb5c576fa7c7f3a", "updated_example", "123", "456", 100.0, 8, 18, 2023)
