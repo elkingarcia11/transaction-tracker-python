@@ -27,6 +27,14 @@ def does_exist(item):
     for doc in docs:
         return True
     return False
+
+def get_item_by_id(id):
+    if type(id) == str:
+        doc = collection.document(id).get()
+        if doc.exists:
+            return doc
+        else:
+            return None
     
 def insert_item(item):
     item['date_added'] = firestore.SERVER_TIMESTAMP
