@@ -1,6 +1,6 @@
 # Transaction Tracker (Python & NoSQL)
 
-Transaction Tracker is a Python project that allows users to manage transactions in a MongoDB or Cloud Firestoredatabase. 
+The Transaction Tracker is a Python project designed to facilitate transaction management within a MongoDB or Cloud Firestore database.
 
 ## Table of Contents
 
@@ -17,18 +17,17 @@ Transaction Tracker is a Python project that allows users to manage transactions
 ## Installation
 To set up and install the project, follow these steps:
 
-- Install the `pymongo` library: 
+- Install the `pymongo` library using the following command:
 `pip install pymongo`
-- Install the `bson` library:
-`pip install bson`
-- Install the `firebase-admin` library:
+- Install the `bson` library using the following command:
+`pip install bson1
+- Install the `firebase-admin` library using the following command:
 `pip install --upgrade firebase-admin`
 
 ## Configuration
 
-- Create & configure the `.ini` file with sensitive information such as local database connection details.
-
-- Create & configure the `keys/credentials.json` file with sensitive information such as cloud database connection details.
+- Create and configure the `.ini` file with the local database connection details.
+- Create and configure the `keys/credentials.json` file with Cloud Firestore database connection details.
 
 ## Prerequisites
 
@@ -43,21 +42,19 @@ Before running the project, ensure you have the following prerequisites:
 
 ### Development
 
-1. Run `python3 main.py` in the command line to start using the Transaction Tracker:
-
-2. Use key inputs to access different features in program:  
- `G`: for retrieving transactions  
- `A`: for adding transactions  
- `U`: for updating transactions  
- `D`: for deleting transactions  
-
-3. Follow the rest of the program instructions to execute commands
+1. Execute the command `python3 main.py` in the command line to launch the Transaction Tracker.
+2. Utilize key inputs to access various program features:
+   - Enter `G` to retrieve transactions.
+   - Enter `A` to add transactions.
+   - Enter `U` to update transactions. 
+   - Enter `D` to delete transactions.
+4. Follow the on-screen instructions to execute the desired commands.
 
 ## Features
 
-- Easily manage transactions from command line: Add, update, delete, and retrieve transactions in a MongoDB or Cloud Firestore database.
-- Prevent duplicate postings: Communicate with the MongoDB or Cloud Firestore database to avoid duplicate transactions.
-- Efficient tracking: Track and manage posted transactions for better financial management.
+- Simplified transaction management from the command line: Easily add, update, delete, and retrieve transactions within a MongoDB or Cloud Firestore database.
+- Duplication prevention: Interact with the MongoDB or Cloud Firestore database to prevent redundant transactions.
+- Efficient tracking: Effectively monitor and manage posted transactions for enhanced financial management.
 
 ### Screenshot
 
@@ -65,12 +62,12 @@ Before running the project, ensure you have the following prerequisites:
 
 ## Contact Information
 
-For questions, feedback, or inquiries, feel free to contact me via email at elkingarcia.11@gmail.com or connect with me on [LinkedIn](https://www.linkedin.com/in/elkingarcia11/)
+For inquiries, feedback, or questions, don't hesitate to contact me via email at elkingarcia.11@gmail.com or connect with me on [LinkedIn](https://www.linkedin.com/in/elkingarcia11/).
 
 ## Acknowledgments
 
-This project utilizes [PyMongo](https://pymongo.readthedocs.io/), a Python distribution containing tools for working with MongoDB.
+This project makes use of [PyMongo](https://pymongo.readthedocs.io/) and [Firebase Admin Python SDK](https://firebase.google.com/docs/reference/admin/python), Python libraries containing tools for working with MongoDB and Cloud Firestore.
 
 ## Roadmap
 
-The Transaction Tracker project served as the blueprint for the Transaction Tracker API program I developed allowing our operations team to track the company's financial activities from their phones.
+The success of the Transaction Tracker project laid the foundation for the Transaction Tracker API program. This program enables our operations team to monitor the company's financial activities using their mobile devices.
