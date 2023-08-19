@@ -1,5 +1,6 @@
 import pymongo
 import utils
+import configparser
 from bson.objectid import ObjectId
 from datetime import datetime, date
 
@@ -165,6 +166,17 @@ def get_last_x_items(number):
         print("Connection is locked or closed.")
         return None
 
+def get_item_by_id(id):
+    if not connection.is_locked:
+        document = collection.find_one({"_id": id})      
+        if document:
+            return document
+        else:
+            return document
+    else:
+        print("Connection is locked or closed.")
+        return None
+
 
 def insert_item(item):
     """
@@ -228,7 +240,31 @@ def update_item(id, item):
         print("Connection is locked or closed.")
         return None
 
+def read_config(file_name):
+    """
+    Reads configuration settings from an .ini file and returns a ConfigParser object.
 
-conf = utils.read_config(".ini")
+    Args:
+        file_name (str): The name of the .ini file to read.
+
+    Returns:
+        configparser.ConfigParser: A ConfigParser object containing the parsed configuration settings.
+
+    Description:
+        This function reads configuration settings from a specified .ini file using the
+        configparser module. It creates a ConfigParser object, reads the settings from the
+        file, and returns the ConfigParser object for further use.
+
+    Example:
+        config = read_config("config.ini")
+        value = config.get("section", "key")
+    """
+
+    config = configparser.ConfigParser()
+    config.read(file_name)
+    return config
+
+
+conf = read_config(".ini")
 connection = connect(conf)
 collection = get_collection(connection, conf)
