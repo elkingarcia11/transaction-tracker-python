@@ -73,11 +73,7 @@ def delete_item(id):
         delete_item("5f8a08f74cb5c576fa7c7f3a")
     """
 
-    if not connection.is_locked:
-        collection.delete_one({"_id": ObjectId(id)})
-    else:
-        print("Connection is locked or closed.")
-        return None
+    collection.delete_one({"_id": ObjectId(id)})
 
 
 def does_exist(item):
@@ -103,16 +99,11 @@ def does_exist(item):
         else:
             print("Item does not exist in the collection.")
     """
-
-    if not connection.is_locked:
-        item = collection.find_one(item)
-        if item is None:
-            return False
-        else:
-            return True
+    item = collection.find_one(item)
+    if item is None:
+        return False
     else:
-        print("Connection is locked or closed.")
-        return None
+        return True
 
 
 def get_items_by_name(name):
@@ -132,13 +123,8 @@ def get_items_by_name(name):
     Example:
         items = get_items_by_name("example")
     """
-
-    if not connection.is_locked:
-        items = collection.find({"name": name}).sort("dateProcessed", -1)
-        return items
-    else:
-        print("Connection is locked or closed.")
-        return None
+    items = collection.find({"name": name}).sort("date_processed", -1)
+    return items
 
 
 def get_last_x_items(number):
@@ -158,25 +144,15 @@ def get_last_x_items(number):
     Example:
         last_items = get_last_x_items(10)
     """
+    items = collection.find().sort("date_processed", -1).limit(number)
+    return items
 
-    if not connection.is_locked:
-        items = collection.find().sort("dateProcessed", -1).limit(number)
-        return items
-    else:
-        print("Connection is locked or closed.")
-        return None
-
-def get_item_by_id(id):
-    if not connection.is_locked:
-        document = collection.find_one({"_id": id})      
-        if document:
-            return document
-        else:
-            return document
-    else:
-        print("Connection is locked or closed.")
-        return None
-
+def get_items_by_id(id):
+    document = collection.find_one({"_id": ObjectId(id)})      
+    if document:
+        return document
+    else:  
+        return document
 
 def insert_item(item):
     """
@@ -195,12 +171,8 @@ def insert_item(item):
         new_item = {"name": "new_example"}
         insert_item(new_item)
     """
-
-    if not connection.is_locked:
-        collection.insert_one(item)
-    else:
-        print("Connection is locked or closed.")
-        return None
+    item["date_added"] = datetime.now()
+    collection.insert_one(item)
 
 
 def update_item(id, item):
@@ -228,17 +200,13 @@ def update_item(id, item):
         update_item("5f8a08f74cb5c576fa7c7f3a", "updated_example", "123", "456", 100.0, 8, 18, 2023)
     """
 
-    if not connection.is_locked:
-        collection.find_one_and_update(
-            {"_id": ObjectId(id)},
-            {"$set":
-                {"name": item["name"].upper(), "invoice": item["invoice"], "receipt": item["receipt"], "amount": item["amount"],
-                 "dateProcessed": item["dateProcessed"]}
-             }
+    collection.find_one_and_update(
+        {"_id": ObjectId(id)},
+        {"$set":
+         {"name": item["name"].lower(), "invoice": item["invoice"], "receipt": item["receipt"], "amount": item["amount"],
+          "date_processed": item["date_processed"], "date_added": datetime.now()}
+          }
         )
-    else:
-        print("Connection is locked or closed.")
-        return None
 
 def read_config(file_name):
     """

@@ -28,15 +28,16 @@ def get():
     if searchByName == "y":
         name = str(
             input("Enter the full name as it appears on the transaction: ")).lower()
-        items = mongo_utils.get_items_by_name(name)
-        # items = firestore_utils.get_items_by_name(name)
+        # items = firestore_utils.get_items_by_name(name)                       # CFS Command
+        items = mongo_utils.get_items_by_name(name)                             # MongoDB Command
     else:
         transaction_number = int(
             input("Enter the number of transactions you want to retrieve: "))
-        items = mongo_utils.get_last_x_items(transaction_number)
-        # items = firestore_utils.get_last_x_items(transaction_number)
+        # items = firestore_utils.get_last_x_items(transaction_number)          # CFS Command
+        items = mongo_utils.get_last_x_items(transaction_number)                # MongoDB Command
     for item in items:
-        print(f"{item.id} => {item.to_dict()}")
+        #print(f"{item.id} => {item.to_dict()}")                                # CFS Command
+        print(f"{item}")                                                        # MongoDB Command
 
 
 def add():
@@ -52,7 +53,7 @@ def add():
     Description:
         This function interacts with the user to receive input for required fields.
         If inputs are valid, the month, day and year fields are combined
-        into a dateProcessed field. Then the fuction checks if transaction is a duplicate, 
+        into a date_processed field. Then the fuction checks if transaction is a duplicate, 
         and then proceeds to add transaction based on user responses.
 
     Example:
@@ -60,33 +61,33 @@ def add():
     """
 
     item = {
-        'name': input("Enter name: "),
-        'invoice': input("Enter invoice number: "),
-        'receipt': input("Enter receipt number: "),
-        'amount': input("Enter amount paid (Format: DD.CC): "),
-        'month': input("Enter the month the zelle processed: "),
-        'day': input("Enter the day the zelle processed: "),
-        'year': input("Enter the year the zelle processed: ")
+        "name": input("Enter name: ").lower(),
+        "invoice": input("Enter invoice number: ").lower(),
+        "receipt": input("Enter receipt number: ").lower(),
+        "amount": input("Enter amount paid (Format: DD.CC): "),
+        "month": input("Enter the month the zelle processed: "),
+        "day": input("Enter the day the zelle processed: "),
+        "year": input("Enter the year the zelle processed: ")
     }
     if is_valid(item):
         new_item = {key: value for key, value in item.items() if key not in [
-            'day', 'month', 'year']}
-        new_item['dateProcessed'] = date(int(item['year']), int(
-            item['month']), int(item['day'])).isoformat()
-        item_in_db = mongo_utils.does_exist(new_item)
-        # item_in_db = firestore_utils.does_exist(new_item)
+            "day", "month", "year"]}
+        new_item["date_processed"] = date(int(item["year"]), int(
+            item["month"]), int(item["day"])).isoformat()                       
+        # item_in_db = firestore_utils.does_exist(new_item)                     # CFS Command
+        item_in_db = mongo_utils.does_exist(new_item)                           # MongoDB Command
         if item_in_db:
             addToDb = str(input(
                 "Transaction already exists. Do you still want to add to database? (y/n): ")).lower()
             if addToDb == "y":
-                # firestore_utils.insert_item(item)
-                mongo_utils.insert_item(item)
+                # firestore_utils.insert_item(new_item)                             # CFS Command
+                mongo_utils.insert_item(new_item)                                   # MongoDB Command
                 print("Adding duplicate now...")
             else:
                 print("Not adding duplicate to database")
         else:
-            # firestore_utils.insert_item(item)
-            mongo_utils.insert_item(item)
+            # firestore_utils.insert_item(new_item)                                 # CFS Command
+            mongo_utils.insert_item(new_item)                                       # MongoDB Command
             print("No existing transaction found. Adding now...")
     else:
         print("Invalid input information")
@@ -114,24 +115,24 @@ def update():
 
     id = input("Enter the id of the transaction you want to update: ")
     item = {
-        'name': input("Enter name: "),
-        'invoice': input("Enter invoice number: "),
-        'receipt': input("Enter receipt number: "),
-        'amount': input("Enter amount paid (Format: DD.CC): "),
-        'month': input("Enter the month the zelle processed: "),
-        'day': input("Enter the day the zelle processed: "),
-        'year': input("Enter the year the zelle processed: ")
+        "name": input("Enter name: "),
+        "invoice": input("Enter invoice number: "),
+        "receipt": input("Enter receipt number: "),
+        "amount": input("Enter amount paid (Format: DD.CC): "),
+        "month": input("Enter the month the zelle processed: "),
+        "day": input("Enter the day the zelle processed: "),
+        "year": input("Enter the year the zelle processed: ")
     }
     if is_valid(item):
-        if mongo_utils.get_items_by_id(id):
-        #if firestore_utils.get_item_by_id(id):
-            newItem = {key: value for key, value in item.items() if key not in [
-                'day', 'month', 'year']}
-            newItem['dateProcessed'] = date(int(item['year']), int(
-                item['month']), int(item['day'])).isoformat()
+        #if firestore_utils.get_items_by_id(id):                                     # CFS Command
+        if mongo_utils.get_items_by_id(id):                                         # MongoDB Command
+            new_item = {key: value for key, value in item.items() if key not in [
+                "day", "month", "year"]}
+            new_item["date_processed"] = date(int(item["year"]), int(
+                item["month"]), int(item["day"])).isoformat()
             print("Updated successfully")
-            #firestore_utils.update_item(id, item)
-            mongo_utils.update_item(id, item)
+            #firestore_utils.update_item(id, new_item)                                  # CFS Command
+            mongo_utils.update_item(id, new_item)                                       # MongoDB Command
         else:
             print("Invalid id")
     else:
@@ -158,8 +159,8 @@ def delete():
     """
 
     id = str(input("Enter the id of the transaction you want to delete: "))
-    mongo_utils.delete_item(id)
-    #firestore_utils.delete_item(id)
+    #firestore_utils.delete_item(id)                                                # CFS Command 
+    mongo_utils.delete_item(id)                                                     # MongoDB Command
 
 def is_valid(item):
     """
@@ -183,7 +184,7 @@ def is_valid(item):
 
     if not all(isinstance(item[field], str) and item[field] for field in ["name", "invoice", "receipt", "amount", "year", "day", "month"]):
         return False
-    if not (item['day'].isdigit() and item['month'].isdigit() and item['year'].isdigit()):
+    if not (item["day"].isdigit() and item["month"].isdigit() and item["year"].isdigit()):
         return False
     try:
         date(int(item["year"]), int(item["month"]), int(item["day"]))

@@ -96,7 +96,7 @@ def does_exist(item):
         return True
     return False
 
-def get_item_by_id(id):
+def get_items_by_id(id):
     """
     Retrieves a transaction item by its unique identifier (ID).
 
@@ -110,7 +110,7 @@ def get_item_by_id(id):
         This function retrieves a transaction item from the database based on its unique ID.
 
     Example:
-        item = get_item_by_id("123456789")
+        item = get_items_by_id("123456789")
         if item:
             print(item.to_dict())
     """
