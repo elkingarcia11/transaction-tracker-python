@@ -1,5 +1,5 @@
-#import firestore_utils
-import mongo_utils
+import firestore_utils
+#import mongo_utils
 from datetime import date
 
 
@@ -28,16 +28,16 @@ def get():
     if searchByName == "y":
         name = str(
             input("Enter the full name as it appears on the transaction: ")).lower()
-        # items = firestore_utils.get_items_by_name(name)                       # CFS Command
-        items = mongo_utils.get_items_by_name(name)                             # MongoDB Command
+        items = firestore_utils.get_items_by_name(name)                             # CFS Command
+        # items = mongo_utils.get_items_by_name(name)                               # MongoDB Command
     else:
         transaction_number = int(
             input("Enter the number of transactions you want to retrieve: "))
-        # items = firestore_utils.get_last_x_items(transaction_number)          # CFS Command
-        items = mongo_utils.get_last_x_items(transaction_number)                # MongoDB Command
+        items = firestore_utils.get_last_x_items(transaction_number)                # CFS Command
+        # items = mongo_utils.get_last_x_items(transaction_number)                  # MongoDB Command
     for item in items:
-        #print(f"{item.id} => {item.to_dict()}")                                # CFS Command
-        print(f"{item}")                                                        # MongoDB Command
+        print(f"{item.id} => {item.to_dict()}")                                     # CFS Command
+        #print(f"{item}")                                                           # MongoDB Command
 
 
 def add():
@@ -74,20 +74,20 @@ def add():
             "day", "month", "year"]}
         new_item["date_processed"] = date(int(item["year"]), int(
             item["month"]), int(item["day"])).isoformat()                       
-        # item_in_db = firestore_utils.does_exist(new_item)                     # CFS Command
-        item_in_db = mongo_utils.does_exist(new_item)                           # MongoDB Command
+        item_in_db = firestore_utils.does_exist(new_item)                           # CFS Command
+        # item_in_db = mongo_utils.does_exist(new_item)                             # MongoDB Command
         if item_in_db:
             addToDb = str(input(
                 "Transaction already exists. Do you still want to add to database? (y/n): ")).lower()
             if addToDb == "y":
-                # firestore_utils.insert_item(new_item)                             # CFS Command
-                mongo_utils.insert_item(new_item)                                   # MongoDB Command
+                firestore_utils.insert_item(new_item)                               # CFS Command
+                # mongo_utils.insert_item(new_item)                                 # MongoDB Command
                 print("Adding duplicate now...")
             else:
                 print("Not adding duplicate to database")
         else:
-            # firestore_utils.insert_item(new_item)                                 # CFS Command
-            mongo_utils.insert_item(new_item)                                       # MongoDB Command
+            firestore_utils.insert_item(new_item)                                   # CFS Command
+            # mongo_utils.insert_item(new_item)                                     # MongoDB Command
             print("No existing transaction found. Adding now...")
     else:
         print("Invalid input information")
@@ -124,15 +124,15 @@ def update():
         "year": input("Enter the year the zelle processed: ")
     }
     if is_valid(item):
-        #if firestore_utils.get_items_by_id(id):                                     # CFS Command
-        if mongo_utils.get_items_by_id(id):                                         # MongoDB Command
+        if firestore_utils.get_items_by_id(id):                                     # CFS Command
+        #if mongo_utils.get_items_by_id(id):                                        # MongoDB Command
             new_item = {key: value for key, value in item.items() if key not in [
                 "day", "month", "year"]}
             new_item["date_processed"] = date(int(item["year"]), int(
                 item["month"]), int(item["day"])).isoformat()
             print("Updated successfully")
-            #firestore_utils.update_item(id, new_item)                                  # CFS Command
-            mongo_utils.update_item(id, new_item)                                       # MongoDB Command
+            firestore_utils.update_item(id, new_item)                               # CFS Command
+            #mongo_utils.update_item(id, new_item)                                  # MongoDB Command
         else:
             print("Invalid id")
     else:
@@ -159,8 +159,8 @@ def delete():
     """
 
     id = str(input("Enter the id of the transaction you want to delete: "))
-    #firestore_utils.delete_item(id)                                                # CFS Command 
-    mongo_utils.delete_item(id)                                                     # MongoDB Command
+    firestore_utils.delete_item(id)                                                # CFS Command 
+    # mongo_utils.delete_item(id)                                                  # MongoDB Command
 
 def is_valid(item):
     """

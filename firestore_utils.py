@@ -81,7 +81,7 @@ def does_exist(item):
         bool: True if the transaction item exists, False otherwise.
 
     Description:
-        This function checks whether a transaction item with the same name, amount, and dateProcessed already exists.
+        This function checks whether a transaction item with the same name, amount, and date_processed already exists.
 
     Example:
         if does_exist(new_item):
@@ -90,7 +90,7 @@ def does_exist(item):
 
     query = collection.where(filter=FieldFilter("name", "==", item["name"])).where(
     filter=FieldFilter("amount", "==", item["amount"])).where(
-    filter=FieldFilter("dateProcessed", "==", item["dateProcessed"]))
+    filter=FieldFilter("date_processed", "==", item["date_processed"]))
     docs = query.stream()
     for doc in docs:
         return True
