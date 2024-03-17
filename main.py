@@ -1,4 +1,4 @@
-import utils
+from transaction_manager import TransactionManager
 
 
 def main():
@@ -32,16 +32,17 @@ def main():
     """
 
     while True:
+        manager = TransactionManager()
         command = str(
             input("Enter what you want to do (G, A, U, D): ")).lower()
         if command == "g":
-            utils.get()
+            manager.get()
         elif command == "a":
-            utils.add()
+            manager.add()
         elif command == "u":
-            utils.update()
+            manager.update()
         elif command == "d":
-            utils.delete()
+            manager.delete()
 
 
 main()
