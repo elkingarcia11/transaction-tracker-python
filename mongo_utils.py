@@ -147,12 +147,14 @@ def get_last_x_items(number):
     items = collection.find().sort("date_processed", -1).limit(number)
     return items
 
+
 def get_items_by_id(id):
-    document = collection.find_one({"_id": ObjectId(id)})      
+    document = collection.find_one({"_id": ObjectId(id)})
     if document:
         return document
-    else:  
+    else:
         return document
+
 
 def insert_item(item):
     """
@@ -205,8 +207,9 @@ def update_item(id, item):
         {"$set":
          {"name": item["name"].lower(), "invoice": item["invoice"], "receipt": item["receipt"], "amount": item["amount"],
           "date_processed": item["date_processed"], "date_added": datetime.now()}
-          }
-        )
+         }
+    )
+
 
 def read_config(file_name):
     """

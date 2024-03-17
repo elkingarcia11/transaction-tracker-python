@@ -2,6 +2,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
+from google.cloud.firestore_v1 import aggregation
+
 
 def initialize_database(collection_name):
     """
@@ -28,6 +30,7 @@ def initialize_database(collection_name):
     collection = db.collection(collection_name)
     return collection
 
+
 def get_items_by_name(name):
     """
     Retrieves transaction items matching the provided name.
@@ -37,7 +40,7 @@ def get_items_by_name(name):
 
     Returns:
         google.cloud.firestore.QuerySnapshot: A snapshot containing transaction items that match the provided name.
-    
+
     Description:
         This function queries the database collection to retrieve transaction items that match the provided name if name is a valid string.
 
@@ -48,6 +51,7 @@ def get_items_by_name(name):
     if type(name) == str:
         docs = (collection.where(filter=FieldFilter("name", "==", name)).stream())
         return docs
+
 
 def get_last_x_items(number):
     """
@@ -67,8 +71,10 @@ def get_last_x_items(number):
         items = get_last_x_items(10)
     """
 
-    docs = (collection.order_by("date_added", direction=firestore.Query.DESCENDING).limit(number).stream())
+    docs = (collection.order_by("date_added",
+            direction=firestore.Query.DESCENDING).limit(number).stream())
     return docs
+
 
 def does_exist(item):
     """
@@ -89,12 +95,13 @@ def does_exist(item):
     """
 
     query = collection.where(filter=FieldFilter("name", "==", item["name"])).where(
-    filter=FieldFilter("amount", "==", item["amount"])).where(
-    filter=FieldFilter("date_processed", "==", item["date_processed"]))
+        filter=FieldFilter("amount", "==", item["amount"])).where(
+        filter=FieldFilter("date_processed", "==", item["date_processed"]))
     docs = query.stream()
     for doc in docs:
         return True
     return False
+
 
 def get_items_by_id(id):
     """
@@ -121,7 +128,8 @@ def get_items_by_id(id):
             return doc
         else:
             return None
-    
+
+
 def insert_item(item):
     """
     Inserts a new transaction item into the database.
@@ -143,6 +151,7 @@ def insert_item(item):
 
     item["date_added"] = firestore.SERVER_TIMESTAMP
     collection.document().set(item)
+
 
 def update_item(id, item):
     """
@@ -168,6 +177,7 @@ def update_item(id, item):
     item["date_added"] = firestore.SERVER_TIMESTAMP
     collection.document(id).set(item)
 
+
 def delete_item(id):
     """
     Deletes a transaction item from the database.
@@ -177,7 +187,7 @@ def delete_item(id):
 
     Returns:
         None
-        
+
     Description:
         This function deletes a transaction item from the database collection based on its ID.
 
@@ -187,5 +197,6 @@ def delete_item(id):
     """
 
     collection.document(id).delete()
+
 
 collection = initialize_database("clients")
