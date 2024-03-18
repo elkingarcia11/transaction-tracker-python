@@ -1,29 +1,33 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
-from google.cloud.firestore_v1.base_query import FieldFilter
 
 
 class TransactionDatabase:
+    """
+    A class for interacting with a Firestore database containing transactional data.
+
+    Attributes:
+        collection (firestore.CollectionReference): Reference to the Firestore collection.
+    """
+
     def __init__(self, collection_name):
+        """
+        Initialize the TransactionDatabase object.
+
+        Args:
+            collection_name (str): The name of the Firestore collection to interact with.
+        """
         self.collection = self.initialize_database(collection_name)
 
     def initialize_database(self, collection_name):
         """
-        Initializes and returns a Firestore collection for database operations.
+        Initialize the Firestore database and return a reference to the specified collection.
 
         Args:
-            collection_name (str): The name of the collection to interact with.
+            collection_name (str): The name of the Firestore collection.
 
         Returns:
-            google.cloud.firestore.CollectionReference: A reference to the initialized Firestore collection.
-
-        Description:
-            This function initializes the Firebase Admin SDK using the Cloud Firestore service account 
-            credentials, establishes a connection to the Firestore database, and returns a reference 
-            to the specified collection. 
-
-        Example:
-            collection = TransactionDatabase("transactions")
+            firestore.CollectionReference: Reference to the specified Firestore collection.
         """
         cred = credentials.Certificate("keys/credentials.json")
         firebase_admin.initialize_app(cred)
@@ -32,19 +36,13 @@ class TransactionDatabase:
 
     def get_items_by_name(self, name):
         """
-        Retrieves transaction items matching the provided name.
+        Retrieve documents from the collection that match the given name.
 
         Args:
-            name (str): The name to search for in transaction items.
+            name (str): The name to search for in the 'name' field of the documents.
 
         Returns:
-            google.cloud.firestore.QuerySnapshot: A snapshot containing transaction items that match the provided name.
-
-        Description:
-            This function queries the database collection to retrieve transaction items that match the provided name if name is a valid string.
-
-        Example:
-            items = get_items_by_name("John Doe")
+            firestore.QuerySnapshot: A snapshot containing the documents matching the name criteria.
         """
         if isinstance(name, str):
             docs = self.collection.where("name", "==", name).stream()
@@ -52,20 +50,13 @@ class TransactionDatabase:
 
     def get_last_x_items(self, number):
         """
-        Retrieves the last "x" transaction items based on timestamp.
+        Retrieve the last 'number' of items added to the collection.
 
         Args:
-            number (int): The number of transaction items to retrieve.
+            number (int): The number of items to retrieve.
 
         Returns:
-            google.cloud.firestore.QuerySnapshot: A snapshot containing the last "x" transaction items.
-
-        Description:
-            This function queries the database collection to retrieve the specified number of most recent 
-            transaction items added to the database.
-
-        Example:
-            items = get_last_x_items(10)
+            firestore.QuerySnapshot: A snapshot containing the last 'number' of documents added to the collection.
         """
         docs = self.collection.order_by(
             "date_added", direction=firestore.Query.DESCENDING).limit(number).stream()
@@ -73,20 +64,13 @@ class TransactionDatabase:
 
     def does_exist(self, item):
         """
-        Checks if a transaction item already exists in the database.
+        Check if an item with the same name, amount, and date processed already exists in the collection.
 
         Args:
-            item (dict): The transaction item data to check for existence.
+            item (dict): Dictionary containing the attributes of the item to check.
 
         Returns:
-            bool: True if the transaction item exists, False otherwise.
-
-        Description:
-            This function checks whether a transaction item with the same name, amount, and date_processed already exists.
-
-        Example:
-            if does_exist(new_item):
-                # Handle existing item case
+            bool: True if an item with the same attributes exists, False otherwise.
         """
         query = self.collection.where("name", "==", item["name"]).where(
             "amount", "==", item["amount"]).where("date_processed", "==", item["date_processed"])
@@ -95,21 +79,13 @@ class TransactionDatabase:
 
     def get_items_by_id(self, item_id):
         """
-        Retrieves a transaction item by its unique identifier (ID).
+        Retrieve an item from the collection by its ID.
 
         Args:
-            item_id (str): The ID of the transaction item to retrieve.
+            item_id (str): The ID of the item to retrieve.
 
         Returns:
-            google.cloud.firestore.DocumentSnapshot or None: A snapshot of the transaction item or None if not found.
-
-        Description:
-            This function retrieves a transaction item from the database based on its unique ID.
-
-        Example:
-            item = get_items_by_id("123456789")
-            if item:
-                print(item.to_dict())
+            firestore.DocumentSnapshot: A snapshot containing the document with the specified ID, or None if not found.
         """
         if isinstance(item_id, str):
             doc = self.collection.document(item_id).get()
@@ -117,63 +93,30 @@ class TransactionDatabase:
 
     def insert_item(self, item):
         """
-        Inserts a new transaction item into the database.
+        Insert a new item into the collection.
 
         Args:
-            item (dict): The data of the transaction item to insert.
-
-        Returns:
-            None
-
-        Description:
-            This function inserts a new transaction item into the database collection 
-            with an autogenerated ID and a timestamp of its added date.
-
-        Example:
-            new_item = {...}  # Dictionary containing item data
-            insert_item(new_item)
+            item (dict): Dictionary containing the attributes of the item to insert.
         """
         item["date_added"] = firestore.SERVER_TIMESTAMP
         self.collection.add(item)
 
     def update_item(self, item_id, item):
         """
-        Updates a transaction item in the database.
+        Update an existing item in the collection.
 
         Args:
-            item_id (str): The ID of the transaction item to update.
-            item (dict): The updated data of the transaction item.
-
-        Returns:
-            None
-
-        Description:
-            This function updates an existing transaction item in the database collection 
-            based on its ID and updates timestamp of its added date to current time
-
-        Example:
-            item_id = "123456789"
-            updated_item = {...}  # Dictionary containing updated item data
-            update_item(item_id, updated_item)
+            item_id (str): The ID of the item to update.
+            item (dict): Dictionary containing the updated attributes of the item.
         """
         item["date_added"] = firestore.SERVER_TIMESTAMP
         self.collection.document(item_id).set(item)
 
     def delete_item(self, item_id):
         """
-        Deletes a transaction item from the database.
+        Delete an item from the collection by its ID.
 
         Args:
-            item_id (str): The ID of the transaction item to delete.
-
-        Returns:
-            None
-
-        Description:
-            This function deletes a transaction item from the database collection based on its ID.
-
-        Example:
-            item_id = "123456789"
-            delete_item(item_id)
+            item_id (str): The ID of the item to delete.
         """
         self.collection.document(item_id).delete()
