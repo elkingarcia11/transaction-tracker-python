@@ -42,12 +42,7 @@ class TransactionManager:
             user_input = input(prompt).strip()
             try:
                 # Check if input can be converted to float
-                float(user_input)
-                # Assuming DD.CC format, check if it has two decimal places
-                if len(user_input.split('.')[1]) == 2:
-                    return user_input
-                else:
-                    print("Invalid amount format. Please enter in DD.CC format.")
+                return float(user_input)
             except ValueError:
                 print("Invalid input. Please enter a valid amount.")
 
@@ -70,10 +65,10 @@ class TransactionManager:
             if is_valid(item_data):
                 # Perform further actions
         """
-        if not all(isinstance(item[field], str) and item[field] for field in ["name", "invoice", "receipt", "amount", "year", "day", "month"]):
+        if not all(isinstance(item[field], str) and item[field] for field in ["name", "invoice", "receipt", "year", "day", "month"]):
             return False
         if not (item["day"].isdigit() and item["month"].isdigit() and item["year"].isdigit()):
-            return False
+             return False
         try:
             date(int(item["year"]), int(item["month"]), int(item["day"]))
             return True
