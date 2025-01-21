@@ -45,7 +45,7 @@ class TransactionDatabase:
             firestore.QuerySnapshot: A snapshot containing the documents matching the name criteria.
         """
         if isinstance(name, str):
-            docs = self.collection.where(field="name", op="==",value=name).stream()
+            docs = self.collection.where("name", "==",name).stream()
             return docs
 
     def get_last_x_items(self, number):
@@ -72,8 +72,7 @@ class TransactionDatabase:
         Returns:
             bool: True if an item with the same attributes exists, False otherwise.
         """
-        query = self.collection.where(field="name", op="==", value=item["name"]).where(field=
-            "amount", op="==", value=item["amount"]).where(field="date_processed", op="==", value=item["date_processed"])
+        query = self.collection.where("name", "==", item["name"]).where("amount", "==", item["amount"]).where("date_processed", "==", item["date_processed"])
         docs = query.stream()
         return any(docs)
 
